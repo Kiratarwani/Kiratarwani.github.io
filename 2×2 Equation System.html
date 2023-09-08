@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+  <input type="number" placeholder="a1" id="a1"><br>
+  <input type="number" placeholder="b1" id="b1"><br>
+  <input type="number" placeholder="c1" id="c1"><br>
+  <input type="number" placeholder="a2" id="a2"><br>
+  <input type="number" placeholder="b2" id="b2"><br>
+  <input type="number" placeholder="c2" id="c2"><br>
+  <button id="ev">Evaluate</button><br>
+  <span id="type"></span><br>
+  <span id="vx"></span><br>
+  <span id="vy"></span>
+  <script>
+    let Id = (id) => document.getElementById(id);
+
+    Id("ev").addEventListener("click", evaluate);
+
+    function evaluate() {
+      let a1 = parseFloat(Id("a1").value),
+        b1 = parseFloat(Id("b1").value),
+        c1 = parseFloat(Id("c1").value),
+        a2 = parseFloat(Id("a2").value),
+        b2 = parseFloat(Id("b2").value),
+        c2 = parseFloat(Id("c2").value);
+      if (a1 / a2 == b1 / b2 && b1 / b2 != c1 / c2) {
+        Id("type").innerText = "Inconsistent, Parallel, No Solution";
+      } else if (a1 / a2 == b1 / b2 && b1 / b2 == c1 / c2) {
+        Id("type").innerText = "Consistent, Coincident, Infinite Solutions";
+      } else {
+        Id("type").innerText = "Consistent, Intersecting, Unique Solution";
+        y = ((c2 * a1 / a2) - c1) / ((b2 * a1 / a2) - b1);
+        x = (c1 - b1 * y) / a1;
+        Id("vx").innerText = x;
+        Id("vy").innerText = y;
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+  <input placeholder="Value of a" id="a"><br>
+  <input placeholder="Value of b" id="b"><br>
+  <input placeholder="Value of c" id="c"><br>
+  <button id="calc">Calculate</button><br>
+  <input placeholder="Number of roots" id="n" readonly><br>
+  <input placeholder="First Root (alpha)" id="r1" readonly><br>
+  <input placeholder="Second Root (beta)" id="r2" readonly><br>
+  <input placeholder="First factor" id="f1" readonly><br>
+  <input placeholder="Second factor" id="f2" readonly>
+  <script>
+    let Id = (id) => document.getElementById(id);
+
+    function calculate() {
+      let a = Id("a").value,
+      b = Id("b").value,
+      c = Id("c").value,
+      D = b * b - 4 * a * c;
+      if (D < 0) {
+        Id("n").value = "No Root";
+        Id("r1").value = Id("r2").value = Id("f1").value = Id("f2").value = "";
+      } else {
+        Id("n").value = (D > 0) ? "Two Roots" : "One Root";
+        Id("r1").value = r1 = (-b + Math.sqrt(D)) / (2 * a);
+        Id("r2").value = r2 = (-b - Math.sqrt(D)) / (2 * a);
+        Id("f1").value = (r1 > 0) ? `x - ${r1}` : `x + ${-r1}`;
+        Id("f2").value = (r2 > 0) ? `x - ${r2}` : `x + ${-r2}`;
+      }
+    }
+    Id("calc").addEventListener("click", calculate);
+  </script>
+</body>
+
+</html>

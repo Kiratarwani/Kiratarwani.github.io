@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title></title>
+</head>
+
+<body>
+ <style>
+  input {
+   display: block;
+  }
+ </style>
+ Type of figure:
+ <select id="typ">
+  <option value="C">Cube</option>
+  <option value="Cu">Cuboid</option>
+  <option value="Cy">Cylinder</option>
+  <option value="Cn">Cone</option>
+  <option value="H">Hemisphere</option>
+  <option value="S">Sphere</option>
+  <option value="Fr">Cone Frustum</option>
+ </select><br>
+ <input type="number" id="a" placeholder="Edge">
+ <input type="number" id="b">
+ <input type="number" id="c">
+ <input type="number" id="d" placeholder="Top radius">
+ <button id="calc">Calculate Surface Area</button><br>
+ <input type="number" id="tsa" placeholder="Total Surface Area" readonly>
+ <input type="number" id="lsa" placeholder="Lateral Surface Area" readonly>
+ <input type="number" id="osa" placeholder="Open Surface Area" readonly>
+ <input type="number" id="vol" placeholder="Volume" readonly>
+ <script>
+  let Id = (id) => document.getElementById(id);
+  let fig, area, A, B, C;
+  Id("b").style.display = "none";
+  Id("c").style.display = "none";
+
+  function display() {
+   fig = Id("typ").value;
+   Id("osa").style.display = "block";
+   Id("lsa").style.display = "block";
+   Id("tsa").placeholder = "Total Surface Area";
+   Id("lsa").placeholder = "Lateral Surface Area";
+   Id("a").placeholder = "Edge";
+   Id("a").style.display = "block";
+   Id("b").style.display = "block";
+   Id("c").style.display = "block";
+   Id("d").style.display = "none";
+   if (fig == "H") {
+    Id("b").style.display = "none";
+    Id("c").style.display = "none";
+    Id("a").placeholder = "Radius";
+    Id("osa").style.display = "none";
+    Id("lsa").placeholder = "Curved Surface Area";
+   } else if (fig == "S") {
+    Id("b").style.display = "none";
+    Id("c").style.display = "none";
+    Id("a").placeholder = "Radius";
+    Id("osa").style.display = "none";
+    Id("lsa").style.display = "none";
+    Id("tsa").placeholder = "Surface Area";
+   } else if (fig == "C") {
+    Id("b").style.display = "none";
+    Id("c").style.display = "none";
+    Id("a").placeholder = "Edge";
+   } else if (fig == "Cy") {
+    Id("c").style.display = "none";
+    Id("a").placeholder = "Base radius";
+    Id("b").placeholder = "Height";
+    Id("lsa").placeholder = "Curved Surface Area";
+   } else if (fig == "Cu") {
+    Id("a").placeholder = "Length";
+    Id("b").placeholder = "Breadth";
+    Id("c").placeholder = "Height";
+   } else if (fig == "Cn" || fig == "Fr") {
+    Id("a").placeholder = "Base radius";
+    Id("b").placeholder = "Height";
+    Id("c").placeholder = "Slant Height";
+    if (fig == "Fr") { Id("d").style.display = "block"; }
+    Id("lsa").placeholder = "Curved Surface Area";
+    Id("osa").style.display = "none";
+   }
+  }
+  Id("typ").addEventListener("change", display);
+
+  function calculate() {
+   let A = parseFloat(Id("a").value),
+    B = parseFloat(Id("b").value),
+    C = parseFloat(Id("c").value),
+    D = parseFloat(Id("d").value),
+    fig = Id("typ").value;
+   if (fig == "C") {
+    Id("tsa").value = A ** 2 * 6;
+    Id("lsa").value = A ** 2 * 4;
+    Id("osa").value = A ** 2 * 5;
+    Id("vol").value = A ** 3;
+   } else if (fig == "Cu") {
+    Id("tsa").value = 2 * ((A * B) + (B * C) + (A * C));
+    Id("lsa").value = 2 * C * (A + B);
+    Id("osa").value = A * B + 2 * C * (A + B);
+    Id("vol").value = A * B * C;
+   } else if (fig == "Cy") {
+    Id("tsa").value = 2 * Math.PI * A * (A + B);
+    Id("lsa").value = 2 * Math.PI * A * B;
+    Id("osa").value = Math.PI * A * (2 * B + A);
+    Id("vol").value = Math.PI * A ** 2 * B;
+   } else if (fig == "Cn") {
+    if (A && B && !C) {
+     Id("c").value = C = Math.sqrt(A ** 2 + B ** 2);
+    } else if (B && C && !A) {
+     Id("a").value = A = Math.sqrt(C ** 2 - B ** 2);
+    } else if (A && C && !B) {
+     Id("b").value = B = Math.sqrt(C ** 2 - A ** 2);
+    }
+    Id("tsa").value = Math.PI * A * (C + A);
+     Id("lsa").value = Math.PI * A * C;
+     Id("vol").value = Math.PI * A ** 2 * B / 3;
+   } else if (fig == "Fr") {
+    let x = (A && B) ? (A - D) : undefined;
+    if (!A && B && C && D) {
+     Id("a").value = A = Math.sqrt(C ** 2 - B ** 2) + A;
+    } else if (A && !B && C && D) {
+     Id("b").value = B = Math.sqrt(C ** 2 - x ** 2);
+    } else if (A && B && !C && D) {
+     Id("c").value = C = Math.sqrt(x ** 2 + B ** 2);
+    } else if (A && B && C && !D) {
+     Id("d").value = D = Math.sqrt(C ** 2 - B ** 2) * -1 + A;
+    }
+     Id("tsa").value = Math.PI * ((A + D) * C + A ** 2 + D ** 2);
+     Id("lsa").value = Math.PI * (A + D) * C;
+     Id("vol").value = Math.PI * B * (A **  2 + A * D + D ** 2) / 3;
+   } else if (fig == "H") {
+    Id("tsa").value = 3 * Math.PI * A ** 2;
+    Id("lsa").value = 2 * Math.PI * A ** 2;
+    Id("vol").value = 2 * Math.PI * A ** 3 / 3;
+   } else if (fig == "S") {
+    Id("tsa").value = 4 * Math.PI * A ** 2;
+    Id("vol").value = 4 * Math.PI * A ** 3 / 3;
+   }
+  }
+  Id("calc").addEventListener("click", calculate);
+ </script>
+</body>
+
+</html>

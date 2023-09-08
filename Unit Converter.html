@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link rel="stylesheet" href="Style.css">
+</head>
+
+<body>
+  <select id="sel0">
+    <option value="length">Length</option>
+    <option value="time">Time</option>
+    <option value="area">Area</option>
+    <option value="volume">Volume</option>
+    <option value="mass">Mass</option>
+    <option value="velocity">Velocity</option>
+    <option value="acceleration">Acceleration</option>
+    <option value="force">Force</option>
+    <option value="energy">Energy</option>
+    <option value="power">Power</option>
+    <option value="pressure">Pressure</option>
+    <option value="density">Density</option>
+  </select>
+  <br>
+  <select id="sel1">
+    <option value="mm">mm</option>
+    <option value="cm">cm</option>
+    <option value="dm">dm</option>
+    <option value="m">m</option>
+    <option value="dam">dam</option>
+    <option value="hm">hm</option>
+    <option value="km">km</option>
+  </select>
+  <input type="number" id="in1">
+  <br>
+  <button id="convert">Convert</button>
+  <button id="rev">Switch</button>
+  <br>
+  <select id="sel2">
+    <option value="mm">mm</option>
+    <option value="cm">cm</option>
+    <option value="dm">dm</option>
+    <option value="m">m</option>
+    <option value="dam">dam</option>
+    <option value="hm">hm</option>
+    <option value="km">km</option>
+  </select>
+  <input type="number" id="in2" readonly>
+  <script>
+    let Id = (id) => document.getElementById(id);
+    let s = Id("sel0");
+    let s1 = Id("sel1");
+    let s2 = Id("sel2");
+    let data = {
+      length: {
+        mm: 1,
+        cm: 10,
+        dm: 100,
+        m: 1000,
+        dam: 10000,
+        hm: 100000,
+        km: 1000000
+      },
+      time: {
+        ms: 1,
+        sec: 100,
+        min: 6000,
+        hr: 360000,
+        day: 8640000,
+        week: 60480000
+      },
+      area: {
+        "cm²": 1,
+        "m²": 10000,
+        hectare: 100000000,
+        "km²": 10000000000
+      },
+      volume: {
+        ml: 1,
+        "cm³": 1,
+        l: 1000,
+        "m³": 1000000,
+        kl: 1000000
+      },
+      mass: {
+        g: 1,
+        kg: 1000,
+        tonne: 1000000
+      },
+      velocity: {
+        "km/h": 1,
+        "m/s": 18/5,
+        mach: 1193.76,
+        c: 1079252848.8
+      },
+      acceleration: {
+        "km/h²": 1,
+        "m/s²": 12960
+      },
+      force: {
+        "gcm/s²": 1,
+        N: 100000
+      },
+      energy: {
+        J: 1,
+        kWh : 3600000
+      },
+      power: {
+        mW: 1,
+        W: 1000,
+        hp: 746000,
+        kW: 1000000,
+        MW: 1000000000
+      },
+      pressure: {
+        "N/m²": 1,
+        "kN/m²": 1000,
+        "MN/m²": 1000000
+      },
+      density: {
+        "kg/m³": 1,
+        "tonne/Ml": 1,
+        "tonne/m³": 1000,
+        "tonne/kl": 1000,
+        "g/ml": 1000,
+        "g/cm³": 1000,
+        "kg/l": 1000,
+      }
+    }
+
+    function display() {
+      a = data[s.value];
+      s1.innerHTML = "";
+      for (const unit in a) {
+        console.log(unit);
+        s1.innerHTML += `<option value="${unit}">${unit}</option>`;
+      }
+      s2.innerHTML = s1.innerHTML;
+    }
+    s.addEventListener("blur", display);
+
+    function converter() {
+      a = data[s.value];
+      b = a[s1.value];
+      c = a[s2.value];
+      d = Id("in1").value;
+      Id("in2").value = b * d / c;
+    }
+    Id("convert").addEventListener("click", converter);
+    function reverse() {
+      r1 = s2.value;
+      r2 = s1.value;
+      s1.value = r1;
+      s2.value = r2;
+      converter();
+    }
+    Id("rev").addEventListener("click",reverse);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title></title>
+</head>
+
+<body>
+ <input type="number" id="num"><br>
+ <button onclick="gen()">Find Factors and Check for Palindrome</button>
+ <div id="rev"></div>
+ <div id="pal"></div>
+ <div id="fact"></div>
+ <div id="prfc"></div>
+ <script>
+  function gen() {
+   let i = 1,
+    k = 1,
+    pr = [],
+    prs = "",
+    a = "",
+    n = _n = parseInt(document.getElementById("num").value),
+    fc = [],
+    revnum = "",
+    x = "",
+    z;
+   document.querySelector("#fact").innerText = "";
+   while (i <= n) {
+    if (n % i == 0) {
+     while (k < fc.length) {
+      if (fc[k].b == i) {
+       z = true;
+       break;
+      }
+      k++;
+     }
+     if (!z) { fc[fc.length] = { a: i, b: n / i } } else { break };
+     document.querySelector("#fact").innerText += i + " × " + (n / i) + "\n";
+    }
+    i++;
+   }
+   n = _n;
+
+   for (let i = 2; i <= n; i++) {
+    while (n % i == 0) {
+     if (i == a) {
+      b = pr[pr.length - 1].p;
+      pr.pop();
+      pr.push({ n: i, p: b + 1, });
+     } else {
+      pr.push({ n: i, p: 1, });
+     }
+     n /= i;
+     a = i;
+    }
+   }
+   pr.forEach(function(x, i) {
+    if (i != 0) {
+     prs += " × ";
+    };
+    if (x.p != 1) {
+     prs += x.n + "<sup>" + x.p + "</sup>"
+    } else { prs += x.n };
+    document.getElementById("prfc").innerHTML = _n + " = " + prs;
+   })
+   n = _n;
+   while (n > 0) {
+    x = n % 10;
+    revnum += x;
+    n = Math.floor(n / 10);
+   }
+   document.querySelector("#rev").innerText = `The reversed number is ${revnum}.`;
+   if (_n == revnum) {
+    document.querySelector("#pal").innerHTML = `${_n} is <b>a palindromic number.</b>`
+   } else {
+    document.querySelector("#pal").innerHTML = `${_n} is <b>not a palindromic number.</b>`
+   }
+  }
+ </script>
+</body>
+
+</html>

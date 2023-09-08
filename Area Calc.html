@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+  <style>
+    input {
+      display: block;
+    }
+  </style>
+  Type of figure:
+  <select id="typ">
+    <option value="S">square</option>
+    <option value="R">rectangle</option>
+    <option value="C">circle</option>
+    <option value="T">triangle</option>
+    <option value="H">triangle(without altitude)</option>
+    <option value="P">parallelogram</option>
+    <option value="Rh">rhombus</option>
+    <option value="Tr">trapezium</option>
+    <option value="Q">quadrilateral</option>
+  </select><br>
+  <input type="number" id="a" placeholder="side">
+  <input type="number" id="b">
+  <input type="number" id="c">
+  <button id="calc">Calculate Area</button><br>
+  <input type="number" id="ar" readonly>
+  <script>
+    let Id = (id) => document.getElementById(id);
+    let fig, area, A, B, C;
+    Id("b").style.display = "none";
+    Id("c").style.display = "none";
+
+    function display() {
+      fig = Id("typ").value;
+      Id("a").style.display = "block";
+      Id("b").style.display = "block";
+      Id("c").style.display = "block";
+      if (fig == "C" || fig == "S") {
+        Id("b").style.display = "none";
+        Id("c").style.display = "none";
+        Id("a").placeholder = (fig == "S") ? "side" : "radius";
+      } else if (fig == "R" || fig == "T" || fig == "P" || fig == "Rh") {
+        Id("c").style.display = "none";
+        Id("a").placeholder = (fig == "T") ? "base" : "length";
+        Id("b").placeholder = (fig == "R") ? "breadth" : "height/altitude";
+        if (fig == "Rh") {
+          Id("a").placeholder = "first diagonal";
+          Id("b").placeholder = "second diagonal";
+        }
+      } else {
+        Id("a").placeholder = (fig == "Tr") ? "altitude" : "diagonal";
+        Id("b").placeholder = (fig == "Tr") ? "first parallel side" : "first perpendicular to the diagonal";
+        Id("c").placeholder = (fig == "Tr") ? "second parallel side" : "second perpendicular to the diagonal";
+        if (fig == "H") {
+          Id("a").placeholder = "first side";
+          Id("b").placeholder = "second side";
+          Id("c").placeholder = "third side";
+        }
+      }
+    }
+    Id("typ").addEventListener("change", display);
+
+    function calculate() {
+      A = parseFloat(Id("a").value);
+      B = parseFloat(Id("b").value);
+      C = parseFloat(Id("c").value);
+      fig = Id("typ").value;
+      if (fig == "C") {
+        area = A ** 2 * Math.PI;
+      } else if (fig == "R" || fig == "P") {
+        area = A * B;
+      } else if (fig == "T" || fig == "Rh") {
+        area = A * B / 2;
+      } else if (fig == "H") {
+        s = (A + B + C) / 2;
+        area = Math.sqrt(s * (s - A) * (s - B) * (s - C));
+      } else if (fig == "Tr" || fig == "Q") {
+        area = val(a) * (val(b) + val(c)) / 2;
+      } else {
+        area = A ** 2;
+      }
+      Id("ar").value = area;
+    }
+    Id("calc").addEventListener("click", calculate);
+  </script>
+</body>
+</html>

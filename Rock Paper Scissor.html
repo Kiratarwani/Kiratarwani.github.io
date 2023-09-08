@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+  <select id="dif">
+    <option value="e">Easy</option>
+    <option value="m">Medium</option>
+    <option value="e">Hard</option>
+  </select><br>
+  <label for="r">Rock<input type="radio" id="r" name="u" value="r"></label><br>
+  <label for="p">Paper<input type="radio" id="p" name="u" value="p"></label><br>
+  <label for="s">Scissor<input type="radio" id="s" name="u" value="s"></label><br>
+  <button id="d">Done</button>
+  <button id="re">Reset</button><br>
+  <span id="c"></span><br>
+  <span id="res"></span><br>
+  <span id="us"></span><br>
+  <span id="cs"></span><br>
+  <span id="ov"></span>
+
+  <script>
+    let Id = (id) => document.getElementById(id),
+      usc = 0,
+      csc = 0;
+
+    Id("d").addEventListener("click", done);
+
+    function done() {
+      let cd,
+        ud = document.querySelector('input[type = radio]:checked').value,
+        diff = Id("dif").value,
+        per = Math.floor(Math.random() * 101);
+      if (diff == "e") {
+        if (ud == "r") {
+          cd = (per <= 26) ? "p" : ((per <= 63) ? "s" : "r");
+        } else if (ud == "p") {
+          cd = (per <= 26) ? "s" : ((per <= 63) ? "p" : "r");
+        } else if (ud == "s") {
+          cd = (per <= 26) ? "r" : ((per <= 63) ? "s" : "p");
+        }
+      } else if (diff == "m") {
+        if (ud == "r") {
+          cd = (per <= 34) ? "p" : ((per <= 67) ? "s" : "r");
+        } else if (ud == "p") {
+          cd = (per <= 34) ? "s" : ((per <= 67) ? "p" : "r");
+        } else if (ud = "s") {
+          cd = (per <= 34) ? "r" : ((per <= 67) ? "s" : "p");
+        }
+      } else if (diff == "h") {
+        if (ud == "r") {
+          cd = (per <= 50) ? "p" : ((per <= 75) ? "s" : "r");
+        } else if (ud == "p") {
+          cd = (per <= 50) ? "s" : ((per <= 75) ? "p" : "r");
+        } else if (ud = "s") {
+          cd = (per <= 50) ? "r" : ((per <= 75) ? "s" : "p");
+        }
+      }
+      if (cd == "r") {
+        Id("c").innerText = "Rock";
+      } else if (cd == "p") {
+        Id("c").innerText = "Paper";
+      } else if (cd == "s") {
+        Id("c").innerText = "Scissor";
+      }
+      if (ud == "r") {
+        result = (cd == "r") ? "Draw" : ((cd == "s") ? "You won!" : "You lost!");
+      } else if (ud == "p") {
+        result = (cd == "p") ? "Draw" : ((cd == "r") ? "You won!" : "You lost!");
+      } else if (ud == "s") {
+        result = (cd == "s") ? "Draw" : ((cd == "p") ? "You won!" : "You lost!");
+      };
+      if (result == "You won!") { usc += 1; } else if (result == "You lost!") { csc += 1; };
+      Id("res").innerText = result;
+      Id("us").innerText = usc;
+      Id("cs").innerText = csc;
+      if (usc == 10) { Id("ov").innerText = "You won the game!" } else if (csc == 10) { Id("ov").innerText = "You lost the game!" }
+    }
+  </script>
+</body>
+
+</html>
